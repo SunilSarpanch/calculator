@@ -1,0 +1,12 @@
+{
+    "name": "calculator",
+    "version": "1.0.0",
+    "description": "string calculator",
+    "main": "index.ts",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "tsc & node dist/index.js"
+    },
+    "author": "",
+    "license": "ISC"
+  }
