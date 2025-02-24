@@ -3,23 +3,25 @@ function add(numbers: string): number {
     return 0;
   }
 
-  let delimiter = ",";
+  let delimiters = ",";
+    if (numbers.indexOf("//") === 0) {
+        delimiters = "";
+        const delimitersEndIndex = numbers.indexOf('\n');
+        const delimitersStr = numbers.slice(2, delimitersEndIndex).trim();
+        
+        numbers = numbers.slice(delimitersEndIndex + 1);
 
-  if (numbers.indexOf("//") === 0) {
-    delimiter = "";
-    for (let index = 2; index < numbers.length; index++) {
-      if (!numbers[index] || parseInt(numbers[index + 1])) {
-        break;
-      }
-      delimiter += numbers[index];
+        if(delimitersStr.indexOf('[') !== -1){
+            delimiters = delimitersStr.replace(/[[]/g, '').replace(/]/g, '|').trim();
+        } else {
+            delimiters = delimitersStr;
+        }
     }
-    numbers = numbers.replace(`//${delimiter}`, "").trim();
-  }
 
   let sum = 0;
   let negativeNos = "";
 
-  let regex = new RegExp("[\n" + delimiter + "]");
+  let regex = new RegExp(`[\n${delimiters}]`);
 
   const numArray = numbers.split(regex);
 
@@ -54,7 +56,8 @@ console.log("sum case 7 : ", add("//;\n1;2")); // handle delimiter ;
 console.log("sum case 8 : ", add("\n1,4"));
 console.log("sum case 9 : ", add("//&&\n1&&4")); // handle delimiter &&
 console.log("sum case 10 : ", add("//&#&\n1&#&5")); // handle delimiter &#&
-
+console.log("sum case 11 : ", add("//[***]\n1***2***3"));
+console.log("sum case 12 : ", add("//[*][%]\n1*2%4"));
 // throw error and handle using try catch
 try {
   add("//;\n-1;2");
